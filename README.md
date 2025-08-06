@@ -45,12 +45,6 @@ We ❤️ community contributions! Share your Bookla components with others.
 
 [📖 Full Contribution Guide →](./CONTRIBUTING.md)
 
-## 🏆 Contributors
-
-<a href="https://github.com/bookla-app/booking-components/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=bookla-app/booking-components" />
-</a>
-
 ## 🔗 Resources
 
 - 📖 **[Bookla Platform](https://bookla.com)** - Build your booking business
