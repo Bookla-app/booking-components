@@ -33,6 +33,12 @@ interface TimeSlotWithResource {
     resourceID: string
 }
 
+interface Duration {
+    days: number
+    hours: number
+    minutes: number
+}
+
 interface ClientData {
     id?: string
     email: string
@@ -112,6 +118,23 @@ function getRouteId(allRoute, path) {
         }
     }
     return ""
+}
+
+const parseIsoDuration = (isoDuration: string): Duration => {
+    // Parse ISO 8601 duration format (e.g., PT30M, PT1H30M)
+    const daysMatch = isoDuration.match(/(\d+)D/)
+    const hourMatch = isoDuration.match(/(\d+)H/)
+    const minuteMatch = isoDuration.match(/(\d+)M/)
+
+    if (!hourMatch && !minuteMatch && !daysMatch) {
+        return { days: 0, hours: 0, minutes: 0 }
+    }
+
+    return {
+        days: daysMatch ? parseInt(daysMatch[1] ?? "", 10) : 0,
+        hours: hourMatch ? parseInt(hourMatch[1] ?? "", 10) : 0,
+        minutes: minuteMatch ? parseInt(minuteMatch[1] ?? "", 10) : 0,
+    }
 }
 
 // Styles
@@ -1749,6 +1772,11 @@ function FixedBookingComponent(props: FixedBookingProps) {
     const [submiting, setSubmiting] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [serviceLoaded, setServiceLoaded] = useState(false)
+    const [currentDuration, setCurrentDuration] = useState<Duration>({
+        days: 0,
+        hours: 1,
+        minutes: 0,
+    })
 
     // Booking data
     const [timeSlots, setTimeSlots] = useState<TimeSlotWithResource[]>([])
@@ -1854,6 +1882,11 @@ function FixedBookingComponent(props: FixedBookingProps) {
             if (response.timeZone && props.localTime === true) {
                 setTimeZone(response.timeZone)
             }
+
+            setCurrentDuration(
+                parseIsoDuration(response.settings?.duration || "PT1H")
+            )
+
             setServiceLoaded(true)
         } catch (err) {
             setError("Failed to load service data: " + err)
@@ -1922,6 +1955,18 @@ function FixedBookingComponent(props: FixedBookingProps) {
             const startOfTheDay = new Date(date.setHours(0, 0, 0))
             const endOfTheDay = new Date(startOfTheDay)
             endOfTheDay.setDate(startOfTheDay.getDate() + 1)
+
+            if (
+                currentDuration.hours > 1 ||
+                (currentDuration.hours === 1 && currentDuration.minutes > 0)
+            ) {
+                const durationMs =
+                    (currentDuration.hours - 1) * 3600000 + currentDuration.minutes * 60000
+                endOfTheDay.setTime(endOfTheDay.getTime() + durationMs)
+                if (currentDuration.days > 0) {
+                    endOfTheDay.setDate(endOfTheDay.getDate() + currentDuration.days)
+                }
+            }
 
             if (props.localTime === true) {
                 const offsetMinutes = getTimezoneOffset(timeZone, date)

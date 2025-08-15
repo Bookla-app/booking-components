@@ -2150,6 +2150,21 @@ function FlexibleBookingComponent(props: FlexibleBookingProps) {
             const endOfTheDay = new Date(startOfTheDay)
             endOfTheDay.setDate(startOfTheDay.getDate() + 1)
 
+            if (
+                currentDuration.hours > 1 ||
+                (currentDuration.hours === 1 && currentDuration.minutes > 0)
+            ) {
+                const durationMs =
+                    (currentDuration.hours - 1) * 3600000 +
+                    currentDuration.minutes * 60000
+                endOfTheDay.setTime(endOfTheDay.getTime() + durationMs)
+                if (currentDuration.days > 0) {
+                    endOfTheDay.setDate(
+                        endOfTheDay.getDate() + currentDuration.days
+                    )
+                }
+            }
+
             if (props.localTime === true) {
                 const offsetMinutes = getTimezoneOffset(timeZone, date)
                 startOfTheDay.setTime(
