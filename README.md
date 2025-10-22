@@ -18,6 +18,7 @@ Beautiful, copy-paste components for integrating with the Bookla booking platfor
 - [📅 Ticket](./components/framer/ticket) - Component for ticket-based bookings
 - [📅 Rental](./components/framer/rental) - Component for rental bookings
 - [📅 Group Day Events](./components/framer/group-day-events) - Component for group services with one event per day (masterclass, etc.)
+- [📅 Villa Rental](./components/framer/villa-weekly) - Component for villa/chalet/property weekly rentals
 
 ## 🎯 Why Copy-Paste?
 
