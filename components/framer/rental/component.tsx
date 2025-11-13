@@ -9,7 +9,7 @@ import React, {
 } from "react"
 import { ControlType } from "framer"
 import { Calendar, ChevronLeft, ChevronRight, Clock } from "lucide-react"
-import { BooklaSDK } from "https://esm.sh/@bookla-app/react-client-sdk@0.3.15"
+import { BooklaSDK } from "https://esm.sh/@bookla-app/react-client-sdk@0.6.2"
 import { v4 as uuid } from "uuid"
 
 // @ts-ignore

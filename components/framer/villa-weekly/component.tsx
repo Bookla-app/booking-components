@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback, useRef } from "react"
 import { ControlType } from "framer"
 import { ChevronLeft, ChevronRight, AlertCircle } from "lucide-react"
-import { BooklaSDK } from "https://esm.sh/@bookla-app/react-client-sdk@0.3.15"
+import { BooklaSDK } from "https://esm.sh/@bookla-app/react-client-sdk@0.6.2"
 
 //@ts-ignore
 import { useRouter } from "framer"
